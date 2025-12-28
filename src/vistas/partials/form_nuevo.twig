@@ -1,0 +1,17 @@
+<tr class='esqFormRow'>
+        <td></td>
+        <td><input class="form-control" type="text" name="especie" placeholder="Especie" required form="nuevoEsqueleto"></td>
+        <td><input class="form-control" type="text" name="periodo" placeholder="Periodo geológico" required form="nuevoEsqueleto"></td>
+        <td><input class="form-control" type="text" name="descripcion" placeholder="Descripcion"></td>
+        <td><input class="form-control" type="text" name="lugar" placeholder="Lugar del yacimiento" form="nuevoEsqueleto"></td>
+        <td><input class="form-control" type="date" name="fechaEsq" placeholder="Fecha de extracción" form="nuevoEsqueleto"></td>
+        <td><select class="form-control" name="estadoEsq" required form="nuevoEsqueleto">
+                <option value="Bajo Estudio">Bajo Estudio</option>
+                <option value="En Exposición">En Exposición</option>
+                <option value="En Almacén">En Almacén</option>
+            </select></td>
+        <td>
+            <input class='btn btn-sm btn-primary' type="submit" value="V" form="nuevoEsqueleto">
+            <button class='btn btn-sm btn-danger' onclick="borrarFormulario('.esqFormRow')">X</button>
+        </td>
+</tr>

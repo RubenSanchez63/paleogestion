@@ -1,0 +1,74 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+<h2>Listado de esqueletos</h2>
+
+<table style="max-width: 75vw;" class="table mt-3 mx-auto">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Especie</th>
+            <th>Periodo</th>
+            <th>Lugar</th>
+            <th>Descripción</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="mainBody">
+        {% for esqueleto in listaEsqueletos %}
+            <tr class='esqRow{{ esqueleto.idEsq }}'>
+                <td>{{ esqueleto.idEsq }}</td>
+                <td>
+                    <a href="" onclick="mostrarFosiles({{ esqueleto.idEsq }}); return false;">
+                        {{ esqueleto.especie }}
+                    </a>
+                </td>
+                <td>{{ esqueleto.periodo }}</td>
+                <td>{{ esqueleto.lugar }}</td>
+                <td>{{ esqueleto.descripcion }}</td>
+                <td>{{ esqueleto.fechaEsq }}</td>
+                <td>{{ esqueleto.estadoEsq }}</td>
+                <td>
+                    <div class="mb-1">
+                        <a class='btn btn-sm btn-info' id="formularioFosil{{ esqueleto.idEsq }}" onclick="formularioFosil({{ esqueleto.idEsq }})">Añadir Fósil</a>
+                    </div>
+                    <div class="d-flex" style="gap: 5px;">
+                    <a class='btn btn-sm btn-danger' id="borrar{{ esqueleto.idEsq }}" onclick="borrarEsqueleto({{ esqueleto.idEsq }})">Borrar</a>
+                    <a class='btn btn-sm btn-primary' id="editar{{ esqueleto.idEsq }}" onclick="editarEsqueleto({{ esqueleto.idEsq }})">Editar</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td id='tabla-fosiles{{ esqueleto.idEsq }}' colspan='8' class='fosRow d-none pt-0 pb-3'>
+                        <table class='table table-sm mb-0 mt-0 mx-auto w-75'>
+                            <thead>
+                                <tr>
+                                    <th style='border: 0;'></th>
+                                    <th style='border: 0;'>Parte</th>
+                                    <th style='border: 0;'>Fecha</th>
+                                    <th style='border: 0;'>Estado</th>
+                                    <th style='border: 0;'>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fosiles-{{ esqueleto.idEsq }}"></tbody>
+                        </table>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="8">
+                <button class="btn btn-sm btn-success" onclick="formularioEsqueleto()">Añadir Esqueleto</button>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<form method="POST" id="nuevoEsqueleto"></form>
+<form method="POST" id="editaEsqueleto"></form>
+<form id="nuevoFosil"></form>
+<form method="POST" id="editaFosil"></form>
+{% endblock %}

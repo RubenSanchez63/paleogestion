@@ -1,0 +1,14 @@
+<tr class='fosFormRow'>
+        <td></td>
+        <td><input class="form-control" type="text" name="parte" placeholder="Parte del cuerpo" required form="nuevoFosil"></td>
+        <td><input class="form-control" type="date" name="fechaFos" placeholder="Fecha de extracción" form="nuevoFosil"></td>
+        <td><select class="form-control" name="estadoFos" required form="nuevoFosil">
+                <option value="Bajo Estudio">Bajo Estudio</option>
+                <option value="En Exposición">En Exposición</option>
+                <option value="En Almacén">En Almacén</option>
+            </select></td>
+        <td>
+            <input class='btn btn-sm btn-primary' type="button" onclick="anadirFosilConId('{{ idEsq }}')" value="V" form="nuevoFosil">
+            <button class='btn btn-sm btn-danger' onclick="borrarFormulario('.fosFormRow')">X</button>
+        </td>
+</tr>

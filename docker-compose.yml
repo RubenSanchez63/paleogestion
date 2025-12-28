@@ -1,0 +1,39 @@
+services:
+
+  web:
+    container_name: dwes-web
+    build: .
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  db:
+    container_name: dwes-bd
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: PaleoGestion
+      LANG: C.UTF-8
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+    ports:
+      - "3305:3306"
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_es_0900_ai_ci
+
+  phpmyadmin:
+    container_name: dwes-phpmyadmin
+    image: phpmyadmin:latest
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root
+    ports:
+      - "8888:80"
+    depends_on:
+      - db
+
+volumes:
+  mysql_data:

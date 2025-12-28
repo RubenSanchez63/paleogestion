@@ -1,0 +1,17 @@
+<tr class='esqEditRow'>
+        <td><input class="form-control d-none" type="text" name="idEsq" value='{{ esqueleto.idEsq }}' required form="editaEsqueleto"></td>
+        <td><input class="form-control" type="text" name="especie" value='{{ esqueleto.especie }}' required form="editaEsqueleto"></td>
+        <td><input class="form-control" type="text" name="periodo" value='{{ esqueleto.periodo }}' required form="editaEsqueleto"></td>
+        <td><input class="form-control" type="text" name="lugar" value='{{ esqueleto.lugar }}' form="editaEsqueleto"></td>
+        <td><input class="form-control" type="text" name="descripcion" value='{{ esqueleto.descripcion }}'form="editaEsqueleto"></td>
+        <td><input class="form-control" type="text" name="fechaEsq" value='{{ esqueleto.fechaEsq|replace({'/': '-'}) }}' form="editaEsqueleto"></td>
+        <td><select class="form-control" name="estadoEsq" value='{{ esqueleto.estadoEsq }}' required form="editaEsqueleto">
+                <option value="Bajo Estudio" {% if esqueleto.estadoEsq == 'Bajo Estudio' %}selected{% endif %}>Bajo Estudio</option>
+                <option value="En Exposición" {% if esqueleto.estadoEsq == 'En Exposición' %}selected{% endif %}>En Exposición</option>
+                <option value="En Almacén" {% if esqueleto.estadoEsq == 'En Almacén' %}selected{% endif %}>En Almacén</option>
+            </select></td>
+        <td>
+            <input class='btn btn-sm btn-primary' type="submit" value="V" form="editaEsqueleto">
+            <button class='btn btn-sm btn-danger' onclick="reload()">X</button>
+        </td>
+</tr>

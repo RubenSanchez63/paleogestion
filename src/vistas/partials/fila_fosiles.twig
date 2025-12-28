@@ -1,0 +1,12 @@
+{% for fosil in fosiles %}
+    <tr class="fosRow{{ fosil.idFos }}">
+        <td>{{ fosil.idFos }}</td>
+        <td>{{ fosil.parte }}</td>
+        <td>{{ fosil.fechaFos }}</td>
+        <td>{{ fosil.estadoFos }}</td>
+        <td>
+            <a class='btn btn-sm btn-danger' id="borrarFosil{{ fosil.idFos }}" onclick="borrarFosil({{ fosil.idFos }} ,  {{ fosil.idEsq }});">Borrar</a>
+            <a class='btn btn-sm btn-primary' id="editarFosil{{ fosil.idFos }}" onclick="editarFosil({{ fosil.idFos }}); return false;">Editar</a>
+        </td>
+    </tr>
+{% endfor %}

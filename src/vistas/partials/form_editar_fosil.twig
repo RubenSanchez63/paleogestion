@@ -1,0 +1,14 @@
+<tr class='fosEditRow'>
+        <td><input class="form-control d-none" type="text" name="idFos" value='{{ fosil.idFos }}' required form="editaFosil"></td>
+        <td><input class="form-control" type="text" name="parte" value='{{ fosil.parte }}' required form="editaFosil"></td>
+        <td><input class="form-control" type="text" name="fechaFos" value='{{ fosil.fechaFos|replace({'/': '-'}) }}' form="editaFosil"></td>
+        <td><select class="form-control" name="estadoFos" value='{{ fosil.estadoFos }}' required form="editaFosil">
+                <option value="Bajo Estudio" {% if fosil.estadoFos == 'Bajo Estudio' %}selected{% endif %}>Bajo Estudio</option>
+                <option value="En Exposición" {% if fosil.estadoFos == 'En Exposición' %}selected{% endif %}>En Exposición</option>
+                <option value="En Almacén" {% if fosil.estadoFos == 'En Almacén' %}selected{% endif %}>En Almacén</option>
+            </select></td>
+        <td>
+            <input class='btn btn-sm btn-primary' type="submit" value="V" form="editaFosil">
+            <button class='btn btn-sm btn-danger' onclick="reload()">X</button>
+        </td>
+</tr>
