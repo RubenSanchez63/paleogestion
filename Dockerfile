@@ -1,14 +1,20 @@
-FROM php:8.5-apache
+FROM php:8.4-apache
 
-RUN apt-get update
-RUN apt-get install  -y zip unzip
-
-#RUN docker-php-ext-install mysqli
-RUN docker-php-ext-install pdo_mysql
-
-#RUN docker-php-ext-enable mysqli
-RUN docker-php-ext-enable pdo_mysql
+# 1. Dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    zip \
+    unzip \
+    git \
+    && docker-php-ext-install pdo pdo_mysql
 
 RUN a2enmod rewrite
 
-COPY --from=composer:latest /usr/bin/composer /user/bin/composer
+
+# Instalamos Composer copiándolo desde su imagen oficial
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Establecemos el directorio de trabajo
+WORKDIR /var/www/html
+
+# Por defecto: Intentar instalar dependencias si faltan y arranca Apache!
+CMD bash -c "[ ! -d 'vendor' ] && composer install; apache2-foreground"

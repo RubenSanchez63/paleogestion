@@ -1,6 +1,7 @@
 <?php
 namespace Controladores;
 
+use Clases\Sesion;
 use modelos\Esqueleto;
 
 class EsqueletoController extends BaseController {
@@ -13,7 +14,7 @@ class EsqueletoController extends BaseController {
      */
     public function index(): void {
         $listaEsqueletos = Esqueleto::listarEsqueletos();
-        echo $this->twig->render('index.twig', ['listaEsqueletos' => $listaEsqueletos , 'sesionActiva' => UsuarioController::sesionActiva() ]);
+        echo $this->twig->render('index.twig', ['listaEsqueletos' => $listaEsqueletos , 'sesionActiva' => UsuarioController::sesionActiva() , 'usuarioActivo' => Sesion::get('user')]);
     }
     
     /**

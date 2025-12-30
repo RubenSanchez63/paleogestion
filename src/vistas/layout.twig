@@ -34,7 +34,7 @@
                 {% if sesionActiva %}
                     <div class="dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                            {{ usuarioNombre|default('Usuario') }}
+                            {{ usuarioActivo|default('Usuario') }}
                         </a>
                         <a onclick="logout(); return false">
                             <ul class="dropdown-menu dropdown-menu-end btn">
@@ -175,7 +175,7 @@
         }
 
         function reload() {
-            location.reload(true);
+            window.location.href = "/";
         }
 
         function login() {
@@ -196,7 +196,10 @@
 
         function logout() {
             fetch('/?logout=1')
-            .then(reload());
+            .then(response => response.text())
+            .then(() => {
+                reload();
+            })
         }
 
     </script>

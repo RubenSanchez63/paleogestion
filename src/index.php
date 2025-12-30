@@ -13,7 +13,7 @@ use Controladores\UsuarioController;
 if (isset($_GET['login'])) {
     if (isset($_POST['user']) && isset($_POST['password'])) {
         $controller = new UsuarioController();
-        $controller->login();
+        echo $controller->login();
         exit();
     }
     echo "false";
