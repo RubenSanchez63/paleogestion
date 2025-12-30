@@ -83,5 +83,5 @@ INSERT INTO Fosil (parte, fechaFos, estadoFos, idEsq) VALUES
 -- EJEMPLO usuario
 
 INSERT INTO Usuario (user, passwordHash)
-VALUES ('admin', '$2y$12$d46rc94ImUPB/23SAi5uo.ktYA4LiG.WA.q/.4Z58HpYAeUON/6z.'),
-       ('a', '$2y$12$ct.tAmraduQUWgw0Gl1urOUvhfYxOwE4uwJmJvD5huqJuRzJPXLFG')
+VALUES ('admin', '$2y$12$d46rc94ImUPB/23SAi5uo.ktYA4LiG.WA.q/.4Z58HpYAeUON/6z.'), -- La contraseña es admin
+       ('a', '$2y$12$ct.tAmraduQUWgw0Gl1urOUvhfYxOwE4uwJmJvD5huqJuRzJPXLFG') -- La contraseña es a

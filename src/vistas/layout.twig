@@ -169,9 +169,9 @@
                         <div class="group">
                             <button id="userDropdown" class="flex items-center gap-3 px-4 py-2 rounded-xl bg-fossil-900/50 border border-fossil-700/30 hover:border-fossil-500/50 transition-all duration-300">
                                 <div class="w-9 h-9 rounded-full bg-gradient-to-br from-dino-400 to-dino-600 flex items-center justify-center text-white font-semibold text-sm">
-                                    {{ usuarioNombre|default('U')|first|upper }}
+                                    {{ usuarioActivo|default('U')|first|upper }}
                                 </div>
-                                <span class="text-fossil-200 font-medium">{{ usuarioNombre|default('Usuario') }}</span>
+                                <span class="text-fossil-200 font-medium">{{ usuarioActivo|default('Usuario') }}</span>
                                 <svg class="w-4 h-4 text-fossil-400 group-hover:text-fossil-200 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                 </svg>
