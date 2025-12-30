@@ -5,10 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>PaleoGestión</title>
+    <style>
+        .navbar {
+            padding: .8rem 1rem;
+        }
+        .navbar-centered {
+            position: relative;
+        }
+        .navbar-brand-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .navbar-right {
+            margin-left: auto;
+            margin-right: 15%;
+        }
+    </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+        <div class="container-fluid navbar-centered">
+            <a class="navbar-brand navbar-brand-center" href="/">
+                <h1 class="mb-0">PaleoGestión</h1>
+            </a>
+            
+            <div class="navbar-right">
+                {% if sesionActiva %}
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            {{ usuarioNombre|default('Usuario') }}
+                        </a>
+                        <a onclick="logout(); return false">
+                            <ul class="dropdown-menu dropdown-menu-end btn">
+                                <li class="dropdown-item">Cerrar Sesión</li>
+                            </ul>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="" id="loginDropdown" role="button" data-bs-toggle="dropdown">
+                            Iniciar Sesión
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end p-3" style="min-width: 280px;">
+                            <form method="" id="login">
+                                <div class="mb-3">
+                                    <label for="usuario" class="form-label">Usuario</label>
+                                    <input type="text" class="form-control" id="usuario" name="user" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                                <p class="d-none alert-danger text-center" id="mensaje"></p>
+                                <input type="button" class="btn btn-primary w-100" onclick="login()" value="Entrar"></input>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
     <div class="container text-center mt-4">
-        <h1>PaleoGestión</h1>
         <div class="mt-3">
             {% block content %}{% endblock %}
         </div>
@@ -18,7 +77,7 @@
     
     <script>
         function mostrarFosiles(id) {
-            fetch('http://localhost:8080?id=' + id)
+            fetch('/?id=' + id)
             .then(response => response.text())
             .then(html => {
                 const tabla = document.getElementById('tabla-fosiles' + id);
@@ -34,7 +93,7 @@
         }
 
         function formularioEsqueleto() {
-            fetch('http://localhost:8080?formNuevo=1')
+            fetch('/?formNuevo=1')
             .then(response => response.text())
             .then(html => {
                 borrarFormulario('.esqFormRow');
@@ -57,7 +116,7 @@
         }
 
         function editarEsqueleto(id) {
-            fetch('http://localhost:8080?formEditar=' + id)
+            fetch('/?formEditar=' + id)
             .then(response => response.text())
             .then(html => {
                 const esqRow = document.querySelector('.esqRow' + id);
@@ -66,7 +125,7 @@
         }
 
         function formularioFosil(idEsq) {
-            fetch('http://localhost:8080?formFosil=' + idEsq)
+            fetch('/?formFosil=' + idEsq)
             .then(response => response.text())
             .then(html => {
                 const tabla = document.getElementById('tabla-fosiles' + idEsq);
@@ -82,7 +141,7 @@
 
         function anadirFosilConId(idEsq) {
             const formulario = document.getElementById('nuevoFosil');
-            fetch('http://localhost:8080?anadirFosil=' + idEsq, {
+            fetch('/?anadirFosil=' + idEsq, {
                 method: 'POST',
                 body: new FormData(formulario)
             })
@@ -107,7 +166,7 @@
         }
         
         function editarFosil(id) {
-            fetch('http://localhost:8080?formEditarFosil=' + id)
+            fetch('/?formEditarFosil=' + id)
             .then(response => response.text())
             .then(html => {
                 const fosRow = document.querySelector('.fosRow' + id);
@@ -115,8 +174,29 @@
             });
         }
 
-        function reload(){
-            location.reload();
+        function reload() {
+            location.reload(true);
+        }
+
+        function login() {
+            const formulario = document.getElementById('login');
+            fetch('/?login=1', {
+                method: 'POST',
+                body: new FormData(formulario)
+            })
+            .then(response => response.text())
+            .then(message => {
+                if (message === "false") {
+                    const mensaje = document.getElementById('mensaje')
+                    mensaje.innerHTML = "No se ha podido iniciar sesión. Comprueba que las credenciales introducidas sean correctas";
+                    mensaje.classList.remove('d-none');
+                } else reload();
+            });
+        }
+
+        function logout() {
+            fetch('/?logout=1')
+            .then(reload());
         }
 
     </script>

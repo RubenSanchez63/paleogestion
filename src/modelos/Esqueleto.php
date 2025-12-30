@@ -30,27 +30,56 @@ class Esqueleto {
 
         return $stmt->fetchAll(PDO::FETCH_CLASS, Esqueleto::class);
     }
-
+        
+    /**
+     * Method anadirEsqueleto
+     *
+     * @param array $datos 
+     *
+     * @return bool
+     */
     public static function anadirEsqueleto(array $datos): bool {
         $pdo = Database::connect();
         $stmt = $pdo->prepare("INSERT INTO Esqueleto (especie, periodo, lugar, descripcion, estadoEsq, fechaEsq) 
                                VALUES (:especie, :periodo, :lugar, :descripcion, :estadoEsq, :fechaEsq);");
         return $stmt->execute($datos);
     }
-
+    
+    /**
+     * Method borrarEsqueletoPorId
+     *
+     * @param int $id 
+     *
+     * @return bool
+     */
     public static function borrarEsqueletoPorId(int $id) : bool {
         $pdo = Database::connect();
         $stmt = $pdo->prepare("DELETE FROM Esqueleto WHERE idEsq=:ide;");
         return $stmt->execute(["ide"=>$id]);
     }
-
+    
+    /**
+     * Method getEsqueletoPorId
+     *
+     * @param int $id 
+     *
+     * @return Esqueleto
+     */
     public static function getEsqueletoPorId(int $id) : Esqueleto|false {
         $pdo = Database::connect();
         $stmt = $pdo->prepare("SELECT * FROM Esqueleto WHERE idEsq=:ide;");
         $stmt->execute(["ide"=>$id]);
         return $stmt->fetchObject(Esqueleto::class);
     }
-
+    
+    /**
+     * Method editarEsqueletoPorId
+     *
+     * @param int $id 
+     * @param array $datos
+     *
+     * @return bool
+     */
     public static function editarEsqueletoPorId(int $id, array $datos) : bool {
         $pdo = Database::connect();
         $stmt = $pdo->prepare("UPDATE Esqueleto 

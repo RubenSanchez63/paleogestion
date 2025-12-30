@@ -5,23 +5,36 @@ require_once './vendor/autoload.php';
 
 use Controladores\EsqueletoController;
 use Controladores\FosilController;
-use Modelos\Fosil;
+use Controladores\UsuarioController;
 
 // --- Lógica de Rutas / Acciones ---
 
 // --- Peticiones GET ---
-if (isset($_GET['id'])) {
-    $controller = new EsqueletoController();
+if (isset($_GET['login'])) {
+    if (isset($_POST['user']) && isset($_POST['password'])) {
+        $controller = new UsuarioController();
+        $controller->login();
+        exit();
+    }
+    echo "false";
+    exit();
+} elseif (isset($_GET['logout'])) {
+        $controller = new UsuarioController();
+        $controller->logout();
+        exit();
+}
+
+if (isset($_GET['id'])) { // Muestra los fósiles de un esqueleto
+    $controller = new FosilController();
 
     $id = (int)$_GET['id'];
 
     if ($id !== null) {
-        $controller = new EsqueletoController();
         $controller->verFosiles($id);
     }
     exit();
 
-} elseif (isset($_GET['borrar'])) {
+} elseif (isset($_GET['borrar'])) { // Borra el esqueleto seleccionado
     $id = (int)$_GET['borrar']??null;
 
     if ($id !== null) {
@@ -32,7 +45,7 @@ if (isset($_GET['id'])) {
     header("Location: http://localhost:8080");
     exit();
 
-} elseif (isset($_GET['formEditar'])) {
+} elseif (isset($_GET['formEditar'])) { // Devuelve el formulario para editar un esqueleto
     $id = (int)$_GET['formEditar']??null;
 
     if ($id === null) {
@@ -43,7 +56,8 @@ if (isset($_GET['id'])) {
         $controller->formularioEditarEsqueleto($id);
         exit(); 
     }
-} elseif (isset($_GET['formFosil'])) {
+
+} elseif (isset($_GET['formFosil'])) { // Devuelve el formulario para añadir un fósil a un esqueleto
     $id = (int)$_GET['formFosil']??null;
 
     if ($id === null) {
@@ -54,18 +68,18 @@ if (isset($_GET['id'])) {
         $controller->formularioFosil($id);
         exit(); 
     }
-} elseif (isset($_GET['formNuevo'])) {
+} elseif (isset($_GET['formNuevo'])) { // Devuelve el formulario para añadir un esqueleto 
     $controller = new EsqueletoController();
     $controller->nuevoEsqueleto();
     exit(); 
     
-} elseif (isset($_GET['anadirFosil'])) {
+} elseif (isset($_GET['anadirFosil'])) { // Añade un fósil a un esqueleto
     $controller = new FosilController();
 
     $idEsq = (int)$_GET['anadirFosil'];
     return $controller->anadirFosil($idEsq);
 
-} elseif (isset($_GET['borrarFosil'])) {
+} elseif (isset($_GET['borrarFosil'])) { // Borra un fosil
     $id = (int)$_GET['borrarFosil']??null;
 
     if ($id !== null) {
@@ -76,7 +90,7 @@ if (isset($_GET['id'])) {
     header("Location: http://localhost:8080");
     exit();
 
-} elseif (isset($_GET['formEditarFosil'])) {
+} elseif (isset($_GET['formEditarFosil'])) { // Devuelve el formulario para editar un fósil
     $id = (int)$_GET['formEditarFosil']??null;
 
     if ($id === null) {
@@ -93,7 +107,7 @@ if (isset($_GET['id'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (isset($_POST['idFos'])) {
+    if (isset($_POST['idFos'])) { // Edita un fósil
         $controller = new FosilController();
         $id = (int)$_POST['idFos'];
         $controller->editarFosil($id);
@@ -104,13 +118,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $controller = new EsqueletoController();
 
-    if (isset($_POST['idEsq'])) {
+    if (isset($_POST['idEsq'])) {  // Edita un esqueleto
         $id = (int)$_POST['idEsq'];
         $controller->editarEsqueleto($id);
         // Recargar tras añadir
         header("Location: http://localhost:8080");
         exit();
-    } else if (isset($_POST['especie'])) {
+    } else if (isset($_POST['especie'])) {  // Añade un esqueleto
         $controller->anadirEsqueleto();
         // Recargar tras añadir
         header("Location: http://localhost:8080");
@@ -119,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 
-// Si no ha habido exits anteriores, mostramos la home
+// Si no ha habido exits anteriores, muestra los esqueletos
 if (empty($_GET)) {
     $controller = new EsqueletoController();
     $controller->index();

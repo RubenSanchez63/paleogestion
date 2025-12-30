@@ -9,9 +9,9 @@ CREATE TABLE Esqueleto (
     especie VARCHAR(100) NOT NULL,
     periodo VARCHAR(100) NOT NULL,
     lugar VARCHAR(150),
-    descripcion TEXT, -- Marcado como (O)pcional en el diagrama
+    descripcion TEXT, 
     fechaEsq DATE,
-    estadoEsq VARCHAR(50) DEFAULT 'En Almacén' -- Estados: En Almacén, En Exposición, Bajo Estudio
+    estadoEsq VARCHAR(50) NOT NULL DEFAULT 'En Almacén' -- Estados: En Almacén, En Exposición, Bajo Estudio
 )
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_es_0900_ai_ci;
@@ -31,6 +31,16 @@ CREATE TABLE Fosil (
         REFERENCES Esqueleto(idEsq)
         ON DELETE CASCADE 
         ON UPDATE CASCADE
+)
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_es_0900_ai_ci;
+
+-- 4. Crear la tabla 'Usuario' (Entidad a parte)
+-- Contiene la información de los usuarios.
+CREATE TABLE Usuario (
+    idUsu INT AUTO_INCREMENT PRIMARY KEY,
+    user varchar(50) NOT NULL,
+    passwordHash varchar(255) NOT NULL
 )
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_es_0900_ai_ci;
@@ -69,3 +79,9 @@ VALUES ('Triceratops horridus', 'Cretácico', 'Dakota del Norte, USA', 'Restos p
 INSERT INTO Fosil (parte, fechaFos, estadoFos, idEsq) VALUES 
 ('Cuerno Nasal', '2024-01-11', 'En Almacén', 3),
 ('Vertebra Cervical', '2024-01-12', 'En Almacén', 3);
+
+-- EJEMPLO usuario
+
+INSERT INTO Usuario (user, passwordHash)
+VALUES ('admin', '$2y$12$d46rc94ImUPB/23SAi5uo.ktYA4LiG.WA.q/.4Z58HpYAeUON/6z.'),
+       ('a', '$2y$12$ct.tAmraduQUWgw0Gl1urOUvhfYxOwE4uwJmJvD5huqJuRzJPXLFG')

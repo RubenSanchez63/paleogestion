@@ -1,8 +1,7 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-<h2>Listado de esqueletos</h2>
-
+<h2 class="h3">Listado de esqueletos</h2>
 <table style="max-width: 75vw;" class="table mt-3 mx-auto">
     <thead>
         <tr>
@@ -13,7 +12,7 @@
             <th>Descripción</th>
             <th>Fecha</th>
             <th>Estado</th>
-            <th>Acciones</th>
+            {{ sesionActiva ? "<th>Acciones</th>" : ''}}
         </tr>
     </thead>
     <tbody id="mainBody">
@@ -30,18 +29,20 @@
                 <td>{{ esqueleto.descripcion }}</td>
                 <td>{{ esqueleto.fechaEsq }}</td>
                 <td>{{ esqueleto.estadoEsq }}</td>
+                {% if sesionActiva %}                        
                 <td>
                     <div class="mb-1">
                         <a class='btn btn-sm btn-info' id="formularioFosil{{ esqueleto.idEsq }}" onclick="formularioFosil({{ esqueleto.idEsq }})">Añadir Fósil</a>
                     </div>
                     <div class="d-flex" style="gap: 5px;">
-                    <a class='btn btn-sm btn-danger' id="borrar{{ esqueleto.idEsq }}" onclick="borrarEsqueleto({{ esqueleto.idEsq }})">Borrar</a>
-                    <a class='btn btn-sm btn-primary' id="editar{{ esqueleto.idEsq }}" onclick="editarEsqueleto({{ esqueleto.idEsq }})">Editar</a>
+                        <a class='btn btn-sm btn-danger' id="borrar{{ esqueleto.idEsq }}" onclick="borrarEsqueleto({{ esqueleto.idEsq }})">Borrar</a>
+                        <a class='btn btn-sm btn-primary' id="editar{{ esqueleto.idEsq }}" onclick="editarEsqueleto({{ esqueleto.idEsq }})">Editar</a>
                     </div>
                 </td>
+                {% endif %}
             </tr>
             <tr>
-                <td id='tabla-fosiles{{ esqueleto.idEsq }}' colspan='8' class='fosRow d-none pt-0 pb-3'>
+                <td id='tabla-fosiles{{ esqueleto.idEsq }}' colspan='{{ sesionActiva ? '8' : '7'}}' class='fosRow d-none pt-0 pb-3'>
                         <table class='table table-sm mb-0 mt-0 mx-auto w-75'>
                             <thead>
                                 <tr>
@@ -49,7 +50,7 @@
                                     <th style='border: 0;'>Parte</th>
                                     <th style='border: 0;'>Fecha</th>
                                     <th style='border: 0;'>Estado</th>
-                                    <th style='border: 0;'>Acciones</th>
+                                    {{ sesionActiva ? "<th style='border: 0;'>Acciones</th>" : ''}}
                                 </tr>
                             </thead>
                             <tbody id="fosiles-{{ esqueleto.idEsq }}"></tbody>
@@ -58,6 +59,7 @@
             </tr>
         {% endfor %}
     </tbody>
+    {% if sesionActiva %}        
     <tfoot>
         <tr>
             <td colspan="8">
@@ -65,10 +67,13 @@
             </td>
         </tr>
     </tfoot>
+    {% endif %}
 </table>
 
+{% if sesionActiva %}    
 <form method="POST" id="nuevoEsqueleto"></form>
 <form method="POST" id="editaEsqueleto"></form>
 <form id="nuevoFosil"></form>
 <form method="POST" id="editaFosil"></form>
+{% endif %}
 {% endblock %}

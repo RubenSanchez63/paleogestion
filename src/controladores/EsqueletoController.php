@@ -2,46 +2,35 @@
 namespace Controladores;
 
 use modelos\Esqueleto;
-use modelos\Fosil;
 
-use Twig\Loader\FilesystemLoader;
-use Twig\Environment;
-
-class EsqueletoController {
-
-    private Environment $twig;
-
-    public function __construct() {
-        $loader = new FilesystemLoader('./vistas');
+class EsqueletoController extends BaseController {
     
-        // Define una ruta para guardar la caché de Twig
-        $cachePath = './cache'; 
-        if (!is_dir($cachePath)) {
-            mkdir($cachePath, 0777, true);
-        }
-
-        $this->twig = new Environment($loader, [
-            'cache' => $cachePath,
-            'debug' => true,  
-            'auto_reload' => true  // Recompila solo si cambias el archivo twig
-        ]);
-    }
-
+    /**
+     * Method index
+     * Renderiza la página por defecto
+     *
+     * @return void
+     */
     public function index(): void {
         $listaEsqueletos = Esqueleto::listarEsqueletos();
-        echo $this->twig->render('index.twig', ['listaEsqueletos' => $listaEsqueletos]);
+        echo $this->twig->render('index.twig', ['listaEsqueletos' => $listaEsqueletos , 'sesionActiva' => UsuarioController::sesionActiva() ]);
     }
-
+    
+    /**
+     * Method nuevoEsqueleto
+     * Renderiza el formulario para añadir un nuevo esqueleto
+     *
+     * @return void
+     */
     public function nuevoEsqueleto(): void {
         echo $this->twig->render('partials/form_nuevo.twig');
     }
-
-    public function verFosiles(int $id): void {
-        $fosiles = Fosil::mostrarFosilesPorId($id);
-        echo $this->twig->render('partials/fila_fosiles.twig', ['fosiles' => $fosiles]);
-
-    }
-
+    
+    /**
+     * Method anadirEsqueleto
+     *
+     * @return bool
+     */
     public function anadirEsqueleto(): bool|string {
         if (isset($_POST['especie'], $_POST['periodo'], $_POST['estadoEsq'])) {
             $esqueleto = [
@@ -58,16 +47,37 @@ class EsqueletoController {
         }
         return "No se han podido añadir los siguientes datos" . print_r($_POST, true);
     }
-
+    
+    /**
+     * Method borrarEsqueleto
+     *
+     * @param int $id
+     *
+     * @return bool
+     */
     public function borrarEsqueleto(int $id) : bool {
         return Esqueleto::borrarEsqueletoPorId($id);
     }
-
+    
+    /**
+     * Method formularioEditarEsqueleto
+     *
+     * @param int $id
+     *
+     * @return void
+     */
     public function formularioEditarEsqueleto(int $id) : void {
         $esqueleto = Esqueleto::getEsqueletoPorId($id);
         echo $this->twig->render('partials/form_editar.twig', ['esqueleto' => $esqueleto]);
     }
-
+    
+    /**
+     * Method editarEsqueleto
+     *
+     * @param int $id 
+     *
+     * @return bool
+     */
     public function editarEsqueleto(int $id) : bool|string {
         if (isset($_POST['idEsq'], $_POST['especie'], $_POST['periodo'], $_POST['estadoEsq'])) {
             $esqueleto = [

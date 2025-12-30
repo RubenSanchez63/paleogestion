@@ -11,7 +11,7 @@ class Fosil {
     /**
      * @var string
      */
-    public private(set) string $fechaFos {
+    public private(set) ?string $fechaFos {
         get => date("d/m/Y", strtotime($this->fechaFos) ) ;
     }
 
@@ -30,27 +30,56 @@ class Fosil {
         
         return $stmt->fetchAll(PDO::FETCH_CLASS, Fosil::class);
     }
-
+    
+    /**
+     * Method anadirFosil
+     *
+     * @param array $datos
+     *
+     * @return bool
+     */
     public static function anadirFosil(array $datos): bool {
         $pdo = Database::connect();
         $stmt = $pdo->prepare("INSERT INTO Fosil (parte, fechaFos, estadoFos, idEsq) 
                                VALUES (:parte, :fechaFos, :estadoFos, :idEsq);");
         return $stmt->execute($datos);
     }
-    
-    public static function borrarEsqueletoPorId(int $id) : bool {
+        
+    /**
+     * Method borrarFosilPorId
+     *
+     * @param int $id 
+     *
+     * @return bool
+     */
+    public static function borrarFosilPorId(int $id) : bool {
         $pdo = Database::connect();
         $stmt = $pdo->prepare("DELETE FROM Fosil WHERE idFos=:idf;");
         return $stmt->execute(["idf"=>$id]);
     }
-
+    
+    /**
+     * Method getFosilPorId
+     *
+     * @param int $id 
+     *
+     * @return Fosil
+     */
     public static function getFosilPorId(int $id) : Fosil|false {
         $pdo = Database::connect();
         $stmt = $pdo->prepare("SELECT * FROM Fosil WHERE idFos=:idf;");
         $stmt->execute(["idf"=>$id]);
         return $stmt->fetchObject(Fosil::class);
     }
-    
+        
+    /**
+     * Method editarFosilPorId
+     *
+     * @param int $idFos
+     * @param array $datos
+     *
+     * @return bool
+     */
     public static function editarFosilPorId(int $idFos, array $datos) : bool {
         $pdo = Database::connect();
         $stmt = $pdo->prepare("UPDATE Fosil 
