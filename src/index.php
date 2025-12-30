@@ -42,14 +42,14 @@ if (isset($_GET['id'])) { // Muestra los fósiles de un esqueleto
         $controller->borrarEsqueleto($id);
     }
     // Redirigir siempre para limpiar la URL
-    header("Location: http://localhost:8080");
+    header("Location: /");
     exit();
 
 } elseif (isset($_GET['formEditar'])) { // Devuelve el formulario para editar un esqueleto
     $id = (int)$_GET['formEditar']??null;
 
     if ($id === null) {
-        header("Location: http://localhost:8080");
+        header("Location: /");
         exit();
     } else {
         $controller = new EsqueletoController();
@@ -61,7 +61,7 @@ if (isset($_GET['id'])) { // Muestra los fósiles de un esqueleto
     $id = (int)$_GET['formFosil']??null;
 
     if ($id === null) {
-        header("Location: http://localhost:8080");
+        header("Location: /");
         exit();
     } else {
         $controller = new FosilController();
@@ -87,14 +87,14 @@ if (isset($_GET['id'])) { // Muestra los fósiles de un esqueleto
         $controller->borrarFosil($id);
     }
     // Redirigir siempre para limpiar la URL
-    header("Location: http://localhost:8080");
+    header("Location: /");
     exit();
 
 } elseif (isset($_GET['formEditarFosil'])) { // Devuelve el formulario para editar un fósil
     $id = (int)$_GET['formEditarFosil']??null;
 
     if ($id === null) {
-        header("Location: http://localhost:8080");
+        header("Location: /");
         exit();
     } else {
         $controller = new FosilController();
@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = (int)$_POST['idFos'];
         $controller->editarFosil($id);
         // Recargar tras añadir
-        header("Location: http://localhost:8080");
+        header("Location: /");
         exit();
     }
 
@@ -122,12 +122,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = (int)$_POST['idEsq'];
         $controller->editarEsqueleto($id);
         // Recargar tras añadir
-        header("Location: http://localhost:8080");
+        header("Location: /");
         exit();
     } else if (isset($_POST['especie'])) {  // Añade un esqueleto
         $controller->anadirEsqueleto();
         // Recargar tras añadir
-        header("Location: http://localhost:8080");
+        header("Location: /");
         exit();
     }
 }

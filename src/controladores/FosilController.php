@@ -1,7 +1,7 @@
 <?php 
 namespace Controladores;
 
-use modelos\Fosil;
+use Modelos\Fosil;
 
 class FosilController extends BaseController {
         

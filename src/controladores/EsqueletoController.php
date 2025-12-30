@@ -2,7 +2,7 @@
 namespace Controladores;
 
 use Clases\Sesion;
-use modelos\Esqueleto;
+use Modelos\Esqueleto;
 
 class EsqueletoController extends BaseController {
     
