@@ -1,76 +1,220 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-<h2 class="h3">Listado de esqueletos</h2>
-<table style="max-width: 75vw;" class="table mt-3 mx-auto">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Especie</th>
-            <th>Periodo</th>
-            <th>Lugar</th>
-            <th>Descripción</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-            {{ sesionActiva ? "<th>Acciones</th>" : ''}}
-        </tr>
-    </thead>
-    <tbody id="mainBody">
-        {% for esqueleto in listaEsqueletos %}
-            <tr class='esqRow{{ esqueleto.idEsq }}'>
-                <td>{{ esqueleto.idEsq }}</td>
-                <td>
-                    <a href="" onclick="mostrarFosiles({{ esqueleto.idEsq }}); return false;">
-                        {{ esqueleto.especie }}
-                    </a>
-                </td>
-                <td>{{ esqueleto.periodo }}</td>
-                <td>{{ esqueleto.lugar }}</td>
-                <td>{{ esqueleto.descripcion }}</td>
-                <td>{{ esqueleto.fechaEsq }}</td>
-                <td>{{ esqueleto.estadoEsq }}</td>
-                {% if sesionActiva %}                        
-                <td>
-                    <div class="mb-1">
-                        <a class='btn btn-sm btn-info' id="formularioFosil{{ esqueleto.idEsq }}" onclick="formularioFosil({{ esqueleto.idEsq }})">Añadir Fósil</a>
+<div class="fade-in">
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div class="glass-card rounded-2xl p-6 dino-shadow">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-fossil-400 to-fossil-600 flex items-center justify-center">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-fossil-400 text-sm">Total Esqueletos</p>
+                    <p class="text-3xl font-bold text-fossil-100">{{ listaEsqueletos|length }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="glass-card rounded-2xl p-6 dino-shadow">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-dino-400 to-dino-600 flex items-center justify-center">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-fossil-400 text-sm">En Exposición</p>
+                    <p class="text-3xl font-bold text-fossil-100">{{ listaEsqueletos|filter(e => e.estadoEsq == 'En Exposición')|length }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="glass-card rounded-2xl p-6 dino-shadow">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
                     </div>
-                    <div class="d-flex" style="gap: 5px;">
-                        <a class='btn btn-sm btn-danger' id="borrar{{ esqueleto.idEsq }}" onclick="borrarEsqueleto({{ esqueleto.idEsq }})">Borrar</a>
-                        <a class='btn btn-sm btn-primary' id="editar{{ esqueleto.idEsq }}" onclick="editarEsqueleto({{ esqueleto.idEsq }})">Editar</a>
+                    <div>
+                        <p class="text-fossil-400 text-sm">Bajo Estudio</p>
+                        <p class="text-3xl font-bold text-fossil-100">{{ listaEsqueletos|filter(e => e.estadoEsq == 'Bajo Estudio')|length }}</p>
                     </div>
-                </td>
-                {% endif %}
-            </tr>
-            <tr>
-                <td id='tabla-fosiles{{ esqueleto.idEsq }}' colspan='{{ sesionActiva ? '8' : '7'}}' class='fosRow d-none pt-0 pb-3'>
-                        <table class='table table-sm mb-0 mt-0 mx-auto w-75'>
-                            <thead>
-                                <tr>
-                                    <th style='border: 0;'></th>
-                                    <th style='border: 0;'>Parte</th>
-                                    <th style='border: 0;'>Fecha</th>
-                                    <th style='border: 0;'>Estado</th>
-                                    {{ sesionActiva ? "<th style='border: 0;'>Acciones</th>" : ''}}
-                                </tr>
-                            </thead>
-                            <tbody id="fosiles-{{ esqueleto.idEsq }}"></tbody>
-                        </table>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-    {% if sesionActiva %}        
-    <tfoot>
-        <tr>
-            <td colspan="8">
-                <button class="btn btn-sm btn-success" onclick="formularioEsqueleto()">Añadir Esqueleto</button>
-            </td>
-        </tr>
-    </tfoot>
-    {% endif %}
-</table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-{% if sesionActiva %}    
+    <!-- Main Table Card -->
+    <div class="glass-card rounded-3xl dino-shadow overflow-hidden">
+        <!-- Header -->
+        <div class="px-8 py-6 border-b border-fossil-800/50">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-fossil-500 to-fossil-700 flex items-center justify-center overflow-hidden">
+                        <img src="/favicon.png" alt="Catálogo" class="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                        <h2 class="font-display text-2xl font-bold text-fossil-100">Catálogo de Esqueletos</h2>
+                        <p class="text-fossil-400 text-sm">Colección paleontológica del museo</p>
+                    </div>
+                </div>
+                {% if sesionActiva %}
+                <button onclick="formularioEsqueleto()" 
+                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-dino-500 to-dino-600 hover:from-dino-400 hover:to-dino-500 text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-dino-500/25">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                    Añadir Esqueleto
+                </button>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto">
+            <table class="w-full" style="overflow: hidden;">
+                <thead>
+                    <tr class="bg-fossil-900/50">
+                        <th class="px-4 py-4 text-center text-xs font-semibold text-fossil-400 uppercase tracking-wider">ID</th>
+                        <th class="px-4 py-4 text-center text-xs font-semibold text-fossil-400 uppercase tracking-wider">Especie</th>
+                        <th class="px-4 py-4 text-center text-xs font-semibold text-fossil-400 uppercase tracking-wider">Período</th>
+                        <th class="px-4 py-4 text-center text-xs font-semibold text-fossil-400 uppercase tracking-wider">Ubicación</th>
+                        <th class="px-4 py-4 text-center text-xs font-semibold text-fossil-400 uppercase tracking-wider">Descripción</th>
+                        <th class="px-4 py-4 text-center text-xs font-semibold text-fossil-400 uppercase tracking-wider">Fecha</th>
+                        <th class="px-4 py-4 text-center text-xs font-semibold text-fossil-400 uppercase tracking-wider">Estado</th>
+                        {{ sesionActiva ? '<th class="px-4 py-4 text-left text-xs font-semibold text-fossil-400 uppercase tracking-wider">Acciones</th>' : '' }}
+                    </tr>
+                </thead>
+                <tbody id="mainBody" class="divide-y divide-fossil-800/30">
+                    {% for esqueleto in listaEsqueletos %}
+                        <tr class="esqRow{{ esqueleto.idEsq }} table-row-hover transition-all duration-300">
+                            <td class="px-4 py-4">
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-fossil-800/50 text-fossil-300 text-sm font-mono">
+                                    {{ esqueleto.idEsq }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-4">
+                                <a href="" onclick="mostrarFosiles({{ esqueleto.idEsq }}); return false;" 
+                                    class="group flex items-center gap-2 text-fossil-100 hover:text-fossil-300 font-semibold transition-colors">
+                                    <span>{{ esqueleto.especie }}</span>
+                                    <svg id="chevron-{{ esqueleto.idEsq }}" class="w-4 h-4 text-fossil-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                    </svg>
+                                </a>
+                            </td>
+                            <td class="px-4 py-4">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-fossil-800/50 text-fossil-300 text-sm">
+                                    <svg class="w-3.5 h-3.5 text-fossil-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    {{ esqueleto.periodo }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-4 text-fossil-300">
+                                <span class="flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 text-fossil-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    {{ esqueleto.lugar }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-4 text-fossil-400 text-sm max-w-xs truncate" style="white-space: wrap;">{{ esqueleto.descripcion }}</td>
+                            <td class="px-4 py-4 text-fossil-400 text-sm font-mono">{{ esqueleto.fechaEsq }}</td>
+                            <td class="px-4 py-4" style="width: 13%;">
+                                {% if esqueleto.estadoEsq == 'Bajo Estudio' %}
+                                    <span class="status-badge status-estudio">🔬 {{ esqueleto.estadoEsq }}</span>
+                                {% elseif esqueleto.estadoEsq == 'En Exposición' %}
+                                    <span class="status-badge status-exposicion">🏛️ {{ esqueleto.estadoEsq }}</span>
+                                {% else %}
+                                    <span class="status-badge status-almacen">📦 {{ esqueleto.estadoEsq }}</span>
+                                {% endif %}
+                            </td>
+                            {% if sesionActiva %}
+                            <td class="px-4 py-4">
+                                <div class="flex flex-col gap-2">
+                                    <button id="formularioFosil{{ esqueleto.idEsq }}" onclick="formularioFosil({{ esqueleto.idEsq }})"
+                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dino-600/20 text-dino-300 hover:bg-dino-600/40 text-sm font-semibold transition-all">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                        </svg>
+                                        Fósil
+                                    </button>
+                                    <div class="flex gap-1.5">
+                                        <a id="borrar{{ esqueleto.idEsq }}" onclick="borrarEsqueleto({{ esqueleto.idEsq }})"
+                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-red-500/20 text-red-300 hover:bg-red-500/40 text-sm font-medium transition-all cursor-pointer">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
+                                            Borrar
+                                        </a>
+                                        <button id="editar{{ esqueleto.idEsq }}" onclick="editarEsqueleto({{ esqueleto.idEsq }})"
+                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-fossil-500/20 text-fossil-300 hover:bg-fossil-500/40 text-sm font-medium transition-all">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                                            </svg>
+                                            Editar
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        <!-- Fossil subtable row -->
+                        <tr>
+                            <td id="tabla-fosiles{{ esqueleto.idEsq }}" colspan="{{ sesionActiva ? '8' : '7' }}" class="hidden p-0">
+                                <div class="bg-fossil-900/30 border-y border-fossil-700/20 py-4 px-8">
+                                    <div class="flex items-center gap-2 mb-4">
+                                        <svg class="w-5 h-5 text-fossil-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                        </svg>
+                                        <span class="text-fossil-300 font-medium text-sm">Fósiles de {{ esqueleto.especie }}</span>
+                                    </div>
+                                    <table style="width: 82%; margin-left: auto; margin-right: auto;">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-2 text-left text-xs font-semibold text-fossil-500 uppercase tracking-wider">ID</th>
+                                                <th class="px-4 py-2 text-left text-xs font-semibold text-fossil-500 uppercase tracking-wider">Parte</th>
+                                                <th class="px-4 py-2 text-left text-xs font-semibold text-fossil-500 uppercase tracking-wider">Fecha</th>
+                                                <th class="px-4 py-2 text-left text-xs font-semibold text-fossil-500 uppercase tracking-wider">Estado</th>
+                                                {{ sesionActiva ? '<th class="px-4 py-2 text-left text-xs font-semibold text-fossil-500 uppercase tracking-wider">Acciones</th>' : '' }}
+                                            </tr>
+                                        </thead>
+                                        <tbody id="fosiles-{{ esqueleto.idEsq }}" class="divide-y divide-fossil-800/20"></tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Empty State -->
+        {% if listaEsqueletos is empty %}
+        <div class="text-center py-16">
+            <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-fossil-800/50 flex items-center justify-center overflow-hidden">
+                <img src="/favicon.png" alt="Sin esqueletos" class="w-full h-full object-cover" />
+            </div>
+            <h3 class="font-display text-xl text-fossil-300 mb-2">No hay esqueletos registrados</h3>
+            <p class="text-fossil-500 mb-6">Comienza añadiendo el primer fósil a la colección</p>
+            {% if sesionActiva %}
+            <button onclick="formularioEsqueleto()" 
+                class="inline-flex items-center gap-2 px-4 py-3 rounded-xl btn-fossil text-white font-semibold">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Añadir Primer Esqueleto
+            </button>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if sesionActiva %}
 <form method="POST" id="nuevoEsqueleto"></form>
 <form method="POST" id="editaEsqueleto"></form>
 <form id="nuevoFosil"></form>

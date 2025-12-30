@@ -1,17 +1,41 @@
-<tr class='esqFormRow'>
-        <td></td>
-        <td><input class="form-control" type="text" name="especie" placeholder="Especie" required form="nuevoEsqueleto"></td>
-        <td><input class="form-control" type="text" name="periodo" placeholder="Periodo geológico" required form="nuevoEsqueleto"></td>
-        <td><input class="form-control" type="text" name="descripcion" placeholder="Descripcion"></td>
-        <td><input class="form-control" type="text" name="lugar" placeholder="Lugar del yacimiento" form="nuevoEsqueleto"></td>
-        <td><input class="form-control" type="date" name="fechaEsq" placeholder="Fecha de extracción" form="nuevoEsqueleto"></td>
-        <td><select class="form-control" name="estadoEsq" required form="nuevoEsqueleto">
-                <option value="Bajo Estudio">Bajo Estudio</option>
-                <option value="En Exposición">En Exposición</option>
-                <option value="En Almacén">En Almacén</option>
-            </select></td>
-        <td>
-            <input class='btn btn-sm btn-primary' type="submit" value="V" form="nuevoEsqueleto">
-            <button class='btn btn-sm btn-danger' onclick="borrarFormulario('.esqFormRow')">X</button>
-        </td>
+<tr class="esqFormRow bg-gradient-to-r from-dino-900/30 to-fossil-900/30 border-y border-dino-500/30">
+    <td class="px-6 py-4">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-dino-500/30 text-dino-300">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+            </svg>
+        </span>
+    </td>
+    <td class="px-6 py-4">
+        <input class="w-full px-3 py-2 rounded-lg fossil-input text-sm" type="text" name="especie" placeholder="Especie" required form="nuevoEsqueleto">
+    </td>
+    <td class="px-6 py-4">
+        <input class="w-full px-3 py-2 rounded-lg fossil-input text-sm" type="text" name="periodo" placeholder="Período geológico" required form="nuevoEsqueleto">
+    </td>
+    <td class="px-6 py-4">
+        <input class="w-full px-3 py-2 rounded-lg fossil-input text-sm" type="text" name="lugar" placeholder="Ubicación yacimiento" form="nuevoEsqueleto">
+    </td>
+    <td class="px-6 py-4">
+        <input class="w-full px-3 py-2 rounded-lg fossil-input text-sm" type="text" name="descripcion" placeholder="Descripción">
+    </td>
+    <td class="px-6 py-4">
+        <input class="w-full px-3 py-2 rounded-lg fossil-input text-sm" type="date" name="fechaEsq" placeholder="Fecha extracción" form="nuevoEsqueleto">
+    </td>
+    <td class="px-6 py-4">
+        <select class="w-full px-3 py-2 rounded-lg fossil-input text-sm" name="estadoEsq" required form="nuevoEsqueleto">
+            <option value="Bajo Estudio">🔬 Bajo Estudio</option>
+            <option value="En Exposición">🏛️ En Exposición</option>
+            <option value="En Almacén">📦 En Almacén</option>
+        </select>
+    </td>
+    <td class="px-6 py-4">
+        <div class="flex gap-2">
+            <input type="submit" value="✓" form="nuevoEsqueleto"
+                class="w-9 h-9 rounded-lg bg-dino-500 hover:bg-dino-400 text-white font-bold cursor-pointer transition-all">
+            <button type="button" onclick="borrarFormulario('.esqFormRow')"
+                class="w-9 h-9 rounded-lg bg-red-500/20 hover:bg-red-500/40 text-red-300 font-bold transition-all">
+                ✕
+            </button>
+        </div>
+    </td>
 </tr>

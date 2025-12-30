@@ -1,14 +1,33 @@
-<tr class='fosEditRow'>
-        <td><input class="form-control d-none" type="text" name="idFos" value='{{ fosil.idFos }}' required form="editaFosil"></td>
-        <td><input class="form-control" type="text" name="parte" value='{{ fosil.parte }}' required form="editaFosil"></td>
-        <td><input class="form-control" type="text" name="fechaFos" value='{{ fosil.fechaFos|replace({'/': '-'}) }}' form="editaFosil"></td>
-        <td><select class="form-control" name="estadoFos" value='{{ fosil.estadoFos }}' required form="editaFosil">
-                <option value="Bajo Estudio" {% if fosil.estadoFos == 'Bajo Estudio' %}selected{% endif %}>Bajo Estudio</option>
-                <option value="En Exposición" {% if fosil.estadoFos == 'En Exposición' %}selected{% endif %}>En Exposición</option>
-                <option value="En Almacén" {% if fosil.estadoFos == 'En Almacén' %}selected{% endif %}>En Almacén</option>
-            </select></td>
-        <td>
-            <input class='btn btn-sm btn-primary' type="submit" value="V" form="editaFosil">
-            <button class='btn btn-sm btn-danger' onclick="reload()">X</button>
-        </td>
+<tr class="fosEditRow bg-gradient-to-r from-fossil-800/30 to-fossil-900/30 border-y border-fossil-500/20">
+    <td class="px-4 py-3">
+        <input class="hidden" type="text" name="idFos" value="{{ fosil.idFos }}" required form="editaFosil">
+        <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-fossil-500/30 text-fossil-300">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+        </span>
+    </td>
+    <td class="px-4 py-3">
+        <input class="w-full px-2.5 py-1.5 rounded-md fossil-input text-sm" type="text" name="parte" value="{{ fosil.parte }}" required form="editaFosil">
+    </td>
+    <td class="px-4 py-3">
+        <input class="w-full px-2.5 py-1.5 rounded-md fossil-input text-sm" type="text" name="fechaFos" value="{{ fosil.fechaFos|replace({'/': '-'}) }}" form="editaFosil">
+    </td>
+    <td class="px-4 py-3">
+        <select class="w-full px-2.5 py-1.5 rounded-md fossil-input text-sm" name="estadoFos" required form="editaFosil">
+            <option value="Bajo Estudio" {% if fosil.estadoFos == 'Bajo Estudio' %}selected{% endif %}>🔬 Bajo Estudio</option>
+            <option value="En Exposición" {% if fosil.estadoFos == 'En Exposición' %}selected{% endif %}>🏛️ En Exposición</option>
+            <option value="En Almacén" {% if fosil.estadoFos == 'En Almacén' %}selected{% endif %}>📦 En Almacén</option>
+        </select>
+    </td>
+    <td class="px-4 py-3">
+        <div class="flex gap-1.5">
+            <input type="submit" value="✓" form="editaFosil"
+                class="w-7 h-7 rounded-md bg-fossil-500 hover:bg-fossil-400 text-white text-sm font-bold cursor-pointer transition-all">
+            <button type="button" onclick="reload()"
+                class="w-7 h-7 rounded-md bg-red-500/20 hover:bg-red-500/40 text-red-300 text-sm font-bold transition-all">
+                ✕
+            </button>
+        </div>
+    </td>
 </tr>

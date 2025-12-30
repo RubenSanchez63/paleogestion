@@ -1,17 +1,42 @@
-<tr class='esqEditRow'>
-        <td><input class="form-control d-none" type="text" name="idEsq" value='{{ esqueleto.idEsq }}' required form="editaEsqueleto"></td>
-        <td><input class="form-control" type="text" name="especie" value='{{ esqueleto.especie }}' required form="editaEsqueleto"></td>
-        <td><input class="form-control" type="text" name="periodo" value='{{ esqueleto.periodo }}' required form="editaEsqueleto"></td>
-        <td><input class="form-control" type="text" name="lugar" value='{{ esqueleto.lugar }}' form="editaEsqueleto"></td>
-        <td><input class="form-control" type="text" name="descripcion" value='{{ esqueleto.descripcion }}'form="editaEsqueleto"></td>
-        <td><input class="form-control" type="text" name="fechaEsq" value='{{ esqueleto.fechaEsq|replace({'/': '-'}) }}' form="editaEsqueleto"></td>
-        <td><select class="form-control" name="estadoEsq" value='{{ esqueleto.estadoEsq }}' required form="editaEsqueleto">
-                <option value="Bajo Estudio" {% if esqueleto.estadoEsq == 'Bajo Estudio' %}selected{% endif %}>Bajo Estudio</option>
-                <option value="En Exposición" {% if esqueleto.estadoEsq == 'En Exposición' %}selected{% endif %}>En Exposición</option>
-                <option value="En Almacén" {% if esqueleto.estadoEsq == 'En Almacén' %}selected{% endif %}>En Almacén</option>
-            </select></td>
-        <td>
-            <input class='btn btn-sm btn-primary' type="submit" value="V" form="editaEsqueleto">
-            <button class='btn btn-sm btn-danger' onclick="reload()">X</button>
-        </td>
+<tr class="esqEditRow bg-gradient-to-r from-fossil-800/50 to-fossil-900/50 border-y border-fossil-500/30">
+    <td class="px-6 py-4">
+        <input class="hidden" type="text" name="idEsq" value="{{ esqueleto.idEsq }}" required form="editaEsqueleto">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-fossil-500/30 text-fossil-300">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+        </span>
+    </td>
+    <td class="px-6 py-4">
+        <input class="w-full px-3 py-2 rounded-lg fossil-input text-sm" type="text" name="especie" value="{{ esqueleto.especie }}" required form="editaEsqueleto">
+    </td>
+    <td class="px-6 py-4">
+        <input class="w-full px-3 py-2 rounded-lg fossil-input text-sm" type="text" name="periodo" value="{{ esqueleto.periodo }}" required form="editaEsqueleto">
+    </td>
+    <td class="px-6 py-4">
+        <input class="w-full px-3 py-2 rounded-lg fossil-input text-sm" type="text" name="lugar" value="{{ esqueleto.lugar }}" form="editaEsqueleto">
+    </td>
+    <td class="px-6 py-4">
+        <input class="w-full px-3 py-2 rounded-lg fossil-input text-sm" type="text" name="descripcion" value="{{ esqueleto.descripcion }}" form="editaEsqueleto">
+    </td>
+    <td class="px-6 py-4">
+        <input class="w-full px-3 py-2 rounded-lg fossil-input text-sm" type="text" name="fechaEsq" value="{{ esqueleto.fechaEsq|replace({'/': '-'}) }}" form="editaEsqueleto">
+    </td>
+    <td class="px-6 py-4">
+        <select class="w-full px-3 py-2 rounded-lg fossil-input text-sm" name="estadoEsq" required form="editaEsqueleto">
+            <option value="Bajo Estudio" {% if esqueleto.estadoEsq == 'Bajo Estudio' %}selected{% endif %}>🔬 Bajo Estudio</option>
+            <option value="En Exposición" {% if esqueleto.estadoEsq == 'En Exposición' %}selected{% endif %}>🏛️ En Exposición</option>
+            <option value="En Almacén" {% if esqueleto.estadoEsq == 'En Almacén' %}selected{% endif %}>📦 En Almacén</option>
+        </select>
+    </td>
+    <td class="px-6 py-4">
+        <div class="flex gap-2">
+            <input type="submit" value="✓" form="editaEsqueleto"
+                class="w-9 h-9 rounded-lg bg-fossil-500 hover:bg-fossil-400 text-white font-bold cursor-pointer transition-all">
+            <button type="button" onclick="reload()"
+                class="w-9 h-9 rounded-lg bg-red-500/20 hover:bg-red-500/40 text-red-300 font-bold transition-all">
+                ✕
+            </button>
+        </div>
+    </td>
 </tr>
